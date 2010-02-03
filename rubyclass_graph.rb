@@ -17,54 +17,60 @@ gnode_set = {
 gnode_set.each { |attr, val| ga.gnode[attr] = val }
 ga.gedge[:style] = 'dotted'
 
-ga.add "Object\nclass => Module\nclass => Class\nclass"
-ga.add "Class\nclass => Standard\nclass"
-ga.add "Class\nclass => Object\nclass"
-ga.add "Class\nclass => Module\nclass"
-ga.add "Standard\nclass => Instance a"
-ga.add "Standard\nclass => Instance b"
-ga.add "Standard\nclass => Instance c"
-ga.add "Module\nclass => Kernel\nmodule"
-ga.add "Module\nclass => module A"
-ga.add "Module\nclass => module B"
-ga.add "Kernel\nmodule => Object\nclass"
+obj, mod, cla, sta, ins_a, ins_b, ins_c, ker, modA, modB =
+  "Object\nclass", "Module\nclass", "Class\nclass", "Standard\nclass", "Instance a", "Instance b", "Instance c", "Kernel\nmodule", "module A", "module B"
+  
+routes = [
+  "#{obj} => #{mod} => #{cla}",
+  "#{cla} => #{sta}",
+  "#{cla} => #{obj}",
+  "#{cla} => #{mod}",
+  "#{sta} => #{ins_a}",
+  "#{sta} => #{ins_b}",
+  "#{sta} => #{ins_c}",
+  "#{mod} => #{ker}",
+  "#{mod} => #{modA}",
+  "#{mod} => #{modB}",
+  "#{ker} => #{obj}"
+]
 
-ga.node( "Instance a", "Instance b", "Instance c",
-         "module A", "module B", "Kernel\nmodule",
+routes.each { |route| ga.add route }
+
+ga.node( ins_a, ins_b, ins_c, modA, modB, ker,
          :height => 0.5, :width => 0.7, :shape => 'ellipse' )
 ga.lap
-ga.node( "Class\nclass", :style => 'filled', :fillcolor => 'steelblue' )
+ga.node( cla, :style => 'filled', :fillcolor => 'steelblue' )
+
 ga.lap
-ga.edge( "Class\nclass_Module\nclass", "Class\nclass_Object\nclass",
-         "Class\nclass_Standard\nclass",
-         :style => 'bold', :color => 'steelblue' )
+ga.edge( "#{cla}_#{mod}", "#{cla}_#{obj}", "#{cla}_#{sta}", :style => 'bold', :color => 'steelblue' )
 ga.lap
-ga.node( "Object\nclass", "Module\nclass", "Standard\nclass",
-         :style => 'filled', :fillcolor => 'steelblue' )
+ga.node( obj, mod, sta, :style => 'filled', :fillcolor => 'steelblue' )
 ga.lap
-ga.edge( "Standard\nclass_Instance a", "Standard\nclass_Instance b",
-         "Standard\nclass_Instance c", "Module\nclass_module A",
-         "Module\nclass_module B", "Module\nclass_Kernel\nmodule",
-         :style => 'filled', :color => 'steelblue' )
+ga.edge( "#{sta}_#{ins_a}", "#{sta}_#{ins_b}", "#{sta}_#{ins_c}", "#{mod}_#{modA}", "#{mod}_#{modB}", "#{mod}_#{ker}", :style => 'filled', :color => 'steelblue' )
+         
 ga.lap
-ga.node( "Instance a", "Instance b", "Instance c",
-         "module A", "module B", "Kernel\nmodule",
-         :fillcolor => 'lightblue', :fontcolor => 'midnightblue' )
+ga.node( ins_a, ins_b, ins_c, modA, modB, ker, :fillcolor => 'lightblue', :fontcolor => 'midnightblue' )
 ga.lap
-ga.edge( "Kernel\nmodule_Object\nclass",
-         :style => 'none', :color => 'darkviolet' )
+
+ga.edge( "#{ker}_#{obj}", :style => 'none', :color => 'darkviolet' )
 ga.lap
-ga.node( "Class\nclass", :style => 'filled', :fillcolor => 'steelblue' )
+
+ga.node( cla, :style => 'filled', :fillcolor => 'steelblue' )
 ga.lap
-ga.node( "Object\nclass", :style => 'filled', :fillcolor => 'maroon' )
+
+ga.node( obj, :style => 'filled', :fillcolor => 'maroon' )
 ga.lap
-ga.edge( "Object\nclass_Module\nclass", :style => 'bold', :color => 'maroon' )
+
+ga.edge( "#{obj}_#{mod}", :style => 'bold', :color => 'maroon' )
 ga.lap
-ga.node( "Module\nclass", :style => 'filled', :fillcolor => 'maroon' )
+
+ga.node( mod, :style => 'filled', :fillcolor => 'maroon' )
 ga.lap
-ga.edge( "Module\nclass_Class\nclass", :style => 'bold', :color => 'maroon' )
+
+ga.edge( "#{mod}_#{cla}", :style => 'bold', :color => 'maroon' )
 ga.lap
-ga.node( "Class\nclass", :style => 'filled', :fillcolor => 'maroon' )
+
+ga.node( cla, :style => 'filled', :fillcolor => 'maroon' )
 ga.lap
 
 ga.write
