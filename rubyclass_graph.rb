@@ -34,43 +34,49 @@ routes = [
   "#{ker} => #{obj}"
 ]
 
+def fill_with(color)
+  {:style => 'filled', :fillcolor => color }
+end
+
 routes.each { |route| ga.add route }
 
-ga.node( ins_a, ins_b, ins_c, modA, modB, ker,
-         :height => 0.5, :width => 0.7, :shape => 'ellipse' )
+ga.node( ins_a, ins_b, ins_c, modA, modB, ker, :height => 0.5, :width => 0.7, :shape => 'ellipse' )
 ga.lap
-ga.node( cla, :style => 'filled', :fillcolor => 'steelblue' )
 
+ga.node( cla, fill_with(:steelblue) )
 ga.lap
+
 ga.edge( "#{cla}_#{mod}", "#{cla}_#{obj}", "#{cla}_#{sta}", :style => 'bold', :color => 'steelblue' )
 ga.lap
-ga.node( obj, mod, sta, :style => 'filled', :fillcolor => 'steelblue' )
+
+ga.node( obj, mod, sta, fill_with(:steelblue) )
 ga.lap
-ga.edge( "#{sta}_#{ins_a}", "#{sta}_#{ins_b}", "#{sta}_#{ins_c}", "#{mod}_#{modA}", "#{mod}_#{modB}", "#{mod}_#{ker}", :style => 'filled', :color => 'steelblue' )
-         
+
+ga.edge( "#{sta}_#{ins_a}", "#{sta}_#{ins_b}", "#{sta}_#{ins_c}", "#{mod}_#{modA}", "#{mod}_#{modB}", "#{mod}_#{ker}", :style => 'bold', :color => 'steelblue' )
 ga.lap
-ga.node( ins_a, ins_b, ins_c, modA, modB, ker, :fillcolor => 'lightblue', :fontcolor => 'midnightblue' )
+
+ga.node( ins_a, ins_b, ins_c, modA, modB, ker, fill_with(:lightblue).merge(:fontcolor => 'midnightblue') )
 ga.lap
 
 ga.edge( "#{ker}_#{obj}", :style => 'none', :color => 'darkviolet' )
 ga.lap
 
-ga.node( cla, :style => 'filled', :fillcolor => 'steelblue' )
+ga.node( cla, fill_with(:steelblue) )
 ga.lap
 
-ga.node( obj, :style => 'filled', :fillcolor => 'maroon' )
+ga.node( obj, fill_with(:maroon) )
 ga.lap
 
 ga.edge( "#{obj}_#{mod}", :style => 'bold', :color => 'maroon' )
 ga.lap
 
-ga.node( mod, :style => 'filled', :fillcolor => 'maroon' )
+ga.node( mod, fill_with(:maroon) )
 ga.lap
 
 ga.edge( "#{mod}_#{cla}", :style => 'bold', :color => 'maroon' )
 ga.lap
 
-ga.node( cla, :style => 'filled', :fillcolor => 'maroon' )
+ga.node( cla, fill_with(:maroon) )
 ga.lap
 
 ga.write
