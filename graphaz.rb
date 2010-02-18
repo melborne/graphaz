@@ -27,13 +27,13 @@ class GraphAz
     @graph
   end
   
-  def node(nodes, opts)
+  def node(*nodes, opts)
     nodes.each do |node|
       opts.each { |attr, val| @graph.get_node(node)[attr] = val  }
     end
   end
   
-  def edge(edges, opts)
+  def edge(*edges, opts)
     @edges.each do |name, edge|
       next unless edges.empty? or edges.include?(name)
       opts.each { |attr, val| edge.set { |e| e.send(attr, val) } }
@@ -87,7 +87,7 @@ if __FILE__ == $0
   }
 
   routes.each { |route| ga.add route }
-  edge_labels.each { |label, edges| ga.edge(edges, :label => label) }
+  edge_labels.each { |label, edges| ga.edge(*edges, :label => label) }
   ga.lap
 
   color = 'blueviolet'
