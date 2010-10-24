@@ -20,9 +20,13 @@ class GraphAz
   
   def add(s, attrs={})
     names = s.split(/\s*=>\s*/).map { |n| n.sub(/^:/, '') }
-    names.map! { |name| @nodes << node = @graph.add_node(name, attrs); node }
-    names.each_cons(2) do |a, b|
-      @edges["#{a.name}_#{b.name}"] = @graph.add_edge(a, b)
+    nodes = names.inject([]) do |mem, name|
+      attrs[:label] = name
+      @nodes << node = @graph.add_node(name, attrs)
+      mem << node
+    end
+    nodes.each_cons(2) do |a, b|
+      @edges["#{a.id}_#{b.id}"] = @graph.add_edge(a, b)
     end
     @graph
   end
