@@ -25,7 +25,6 @@ class GraphAz
     names = s.split(/\s*=>\s*/).map { |n| n.sub(/^:/, '') }
     #add_node
     nodes = names.inject([]) do |mem, name|
-      attrs[:label] = name
       receiver = @graph
       if group
         @graph.send("cluster_#{@groups.index(group)}") do |c|
@@ -33,6 +32,7 @@ class GraphAz
           receiver = c
         end
       end
+      attrs[:label] = name
       @nodes << node = receiver.add_node(name.delete("\n\s"), attrs)
       mem << node
     end
@@ -43,9 +43,11 @@ class GraphAz
     @graph
   end
   
-  def node(*nodes, opts)
-    nodes.each do |node|
-      opts.each { |attr, val| @graph.get_node(node)[attr] = val  }
+  #TODO: error handling
+  def node(*_nodes, opts)
+    _nodes.each do |node|
+      node = nodes.find { |n| node.delete("\n\s") == n.id }
+      opts.each { |attr, val| node[attr] = val  }
     end
   end
   

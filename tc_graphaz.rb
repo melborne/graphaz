@@ -1,7 +1,7 @@
 require "test/unit"
 require_relative "graphaz"
 
-@@result = nil
+@@result = []
 class TestGraphaz < Test::Unit::TestCase
   def setup
     @ga = GraphAz.new
@@ -23,6 +23,12 @@ class TestGraphaz < Test::Unit::TestCase
     @ga.add(":I => :like => :lisp", :group => "lang")
     @ga.add(":java => javascript", :group => "one world")
     @ga.print_graph(:dot => 'out.dot')
+  end
+
+  def test_set_attribute_for_group_node
+    @ga.add(":hello\ngoodbye => :world", :group => "Salute")
+    @ga.node("hello\ngoodbye", :shape => 'circle', :style => 'filled', :color => 'green')
+    @ga.print_graph(:png => 'hello.png')
   end
 end
 
