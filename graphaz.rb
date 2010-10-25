@@ -1,5 +1,11 @@
 require "graphviz"
 
+class String
+  def to_name
+    self.gsub(/_/, ' ')
+  end
+end
+
 class GraphAz
   attr_accessor :graph, :nodes, :edges, :gnode, :gedge
   def initialize(name= :G, *opt, &blk)
@@ -25,11 +31,11 @@ class GraphAz
     names = s.split(/\s*=>\s*/).map { |n| n.sub(/^:/, '') }
     #add_node
     nodes = names.inject([]) do |mem, name|
-      attrs[:label] = name
+      attrs[:label] = name.to_name
       receiver = @graph
       if group
         @graph.send("cluster_#{@groups.index(group)}") do |c|
-          c[:label => group]
+          c[:label => group.to_name]
           receiver = c
         end
       end
@@ -63,11 +69,11 @@ class GraphAz
     if parent #nested group
       add_group(parent)
       @graph.send("cluster_#{@groups.index(parent)}") do |c|
-        c[:label => parent]
+        c[:label => parent.to_name]
         receiver = c
       end
     end
-    receiver.send("cluster_#{@groups.index(gname)}") { |cl| cl[:label => gname] }
+    receiver.send("cluster_#{@groups.index(gname)}") { |cl| cl[:label => gname.to_name] }
   end
 
   def add_group(name)
