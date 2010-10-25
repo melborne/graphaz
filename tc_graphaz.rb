@@ -16,9 +16,9 @@ class TestGraphaz < Test::Unit::TestCase
   end
 
   def test_cluster
-    @ga.group("lang", "one_world")
-    @ga.group("nolang", "one_world")
-    @ga.add(":ruby => :is => :programming => :language", :group => "lang")
+    @ga.group("lang", :parent => "one_world", :style => 'filled', :color => 'lightgrey')
+    @ga.group("nolang", :parent => "one_world", :style => 'filled', :color => 'yellow')
+    @ga.add(":ruby => :is => :programming => :language", :group => "lang", :style => 'filled', :color => 'maroon')
     @ga.add(":pearl => :isnot => :language", :group => "nolang")
     @ga.add(":I => :like => :lisp", :group => "lang")
     @ga.add(":java => javascript", :group => "one_world")

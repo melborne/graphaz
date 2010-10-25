@@ -63,17 +63,19 @@ class GraphAz
   end
 
   #WARN: need to call before add method
-  def group(gname, parent=nil)
+  def group(gname, attrs={})
     add_group(gname)
     receiver = @graph
-    if parent #nested group
+    if parent = attrs.delete(:parent) #nested group
       add_group(parent)
       @graph.send("cluster_#{@groups.index(parent)}") do |c|
         c[:label => parent.to_name]
         receiver = c
       end
     end
-    receiver.send("cluster_#{@groups.index(gname)}") { |cl| cl[:label => gname.to_name] }
+    receiver.send("cluster_#{@groups.index(gname)}") do |cl|
+      cl[attrs.merge!(:label => gname.to_name)]
+    end
   end
 
   def add_group(name)
