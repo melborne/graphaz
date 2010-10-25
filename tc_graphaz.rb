@@ -16,12 +16,12 @@ class TestGraphaz < Test::Unit::TestCase
   end
 
   def test_cluster
-    @ga.group("lang", :parent => "one_world", :style => 'filled', :color => 'lightgrey')
-    @ga.group("nolang", :parent => "one_world", :style => 'filled', :color => 'yellow')
+    @ga.group("lang", :parent => "one world", :style => 'filled', :color => 'lightgrey')
+    @ga.group("nolang", :parent => "one world", :style => 'filled', :color => 'yellow')
     @ga.add(":ruby => :is => :programming => :language", :group => "lang", :style => 'filled', :color => 'maroon')
-    @ga.add(":pearl => :isnot => :language", :group => "nolang")
+    @ga.add(":pearl => :is\nnot => :language", :group => "nolang")
     @ga.add(":I => :like => :lisp", :group => "lang")
-    @ga.add(":java => javascript", :group => "one_world")
+    @ga.add(":java => javascript", :group => "one world")
     @ga.print_graph(:dot => 'out.dot')
   end
 end
