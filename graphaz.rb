@@ -44,11 +44,15 @@ class GraphAz
   end
   
   #TODO: error handling
-  def node(*_nodes, opts)
-    _nodes.each do |node|
-      node = nodes.find { |n| node.delete("\n\s") == n.id }
-      opts.each { |attr, val| node[attr] = val  }
-    end
+  def node(*names, opts)
+    nodes =
+      if names.first == :all
+        self.nodes
+      else
+        names.map { |name| self.nodes.find { |node| name.delete("\n\s") == node.id } }.compact
+      end
+
+    nodes.each { |node| opts.each { |attr, val| node[attr] = val  } }
   end
   
   def edge(*edges, opts)

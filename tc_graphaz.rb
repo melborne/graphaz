@@ -30,6 +30,13 @@ class TestGraphaz < Test::Unit::TestCase
     @ga.node("hello\ngoodbye", :shape => 'circle', :style => 'filled', :color => 'green')
     @ga.print_graph(:png => 'hello.png')
   end
+
+  def test_set_attribute_for_all_nodes
+    @ga.add(":A => :B => :C => :D => :E")
+    @ga.node(:all, :style => 'filled', :color => 'greenyellow', :shape => 'invhouse')
+    @ga.node("B", :shape => 'circle', :color => 'firebrick')
+    @ga.print_graph(:dot => 'out2.dot')
+  end
 end
 
 END{END{
