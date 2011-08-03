@@ -83,8 +83,9 @@ class GraphAz
   end
   private :add_group
 
-  def print_graph(args={}, &blk)
-    @graph.output(args, &blk)
+  def print_graph(format={}, &blk)
+    format = {none: String} if format.empty?
+    @graph.output(format, &blk)
   end
 
   def lap(args={:png => "out#{@@lap}.png"}, &blk)
