@@ -1,6 +1,29 @@
 require "graphviz"
 
 class GraphAz
+  class << self
+    def create(cfg='config.ru', *opt, &blk)
+      instance_eval ::File.read(cfg)
+      ga = GraphAz.new(*opt, &blk)
+      routes.each { |route| ga.add route }
+      ga
+    rescue Errno::ENOENT
+      abort "config file `#{cfg}` not found"
+    end
+
+    def route(&blk)
+      yield
+    end
+
+    def routes
+      @routes ||= []
+    end
+
+    def add(route)
+      routes << route
+    end
+  end
+
   attr_accessor :graph, :nodes, :edges, :gnode, :gedge
   def initialize(name= :G, *opt, &blk)
     @graph = GraphViz.new(name, *opt, &blk)

@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+require "graphaz"
+
+ga = GraphAz.create
+
+puts ga.print_graph
+
+__END__
+
+1. provide config file `config.ru` which describe routes as follows;
+
+  #config.ru
+  route do
+    add 'main => init => make_string'
+    add 'main => parse => execute => make_string'
+    add 'main => cleanup'
+    add 'main => printf'
+    add 'execute => compare'
+    add 'execute => printf'
+  end
+
+2. execute above
